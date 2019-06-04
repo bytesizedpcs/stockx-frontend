@@ -23,9 +23,10 @@ export default class Shelf extends Component {
     }
   }
 
-  handleClick = (option, e) => {
+  handleClick = (option, cardNumber, e) => {
     if (option === 'add') {
       console.log('Hello from add!');
+      console.log('Card number:', cardNumber);
     }
     if (option === 'edit') {
       console.log('Hello from edit!');
@@ -38,12 +39,15 @@ export default class Shelf extends Component {
   render() {
     const { cards } = this.state;
     return (
-      <div>
+      <div className="shelf">
         {
           cards.map((ele, index) => {
             return ele.map((e, i) => {
               return (
-                <Card handleClick={this.handleClick}></Card>
+                <Card 
+                  cardNumber={{index, i}}
+                  handleClick={this.handleClick}>
+                </Card>
               );
             });
           })
@@ -60,12 +64,21 @@ class Card extends Component {
   }
 
   render() {
-    const { handleClick } = this.props;
+    const { handleClick, cardNumber } = this.props;
     return (
-      <div>
-        <button onClick={(e) => handleClick('add', e)}></button>
-        <button onClick={(e) => handleClick('edit', e)}></button>
-        <button onClick={(e) => handleClick('clear', e)}></button>
+      <div className="card">
+        <button 
+          id="button-add"
+          onClick={(e) => handleClick('add', cardNumber, e)}
+        ></button>
+        <button 
+          id="button-edit"
+          onClick={(e) => handleClick('edit', cardNumber, e)}
+        ></button>
+        <button 
+          id="button-clear"
+          onClick={(e) => handleClick('clear', cardNumber, e)}
+        ></button>
       </div>
     );
   }
@@ -78,10 +91,16 @@ class OptionsMenu extends Component {
 
   render() {
     return (
+      <div id="options-menu" className="menu">
+      </div>
     );
   }
 }
 
+// EditMenu will be used twice, in edit and add
+// it will just read in from state.
+// If nothing is there already it will "add"
+// if something is there it will "edit"
 class EditMenu extends Component {
   constructor() {
     super();
@@ -89,6 +108,8 @@ class EditMenu extends Component {
 
   render() {
     return (
+      <div id="edit-menu" className="menu">
+      </div>
     );
   }
 }
@@ -100,6 +121,8 @@ class RemoveMenu extends Component {
 
   render() {
     return (
+      <div id="remove-menu" className="menu">
+      </div>
     );
   }
 }
