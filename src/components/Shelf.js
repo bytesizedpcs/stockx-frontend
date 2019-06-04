@@ -3,53 +3,16 @@ import React, { Component } from 'react';
 export default class Shelf extends Component {
   constructor() {
     super();
-
-    /**
-      x x x x x
-      x x x x x
-      x x x x x
-      x x x x x
-      x x x x x
-    */
-    this.state = {
-      cards: 
-      [
-        [{}, {}, {}, {}, {},],
-        [{}, {}, {}, {}, {},],
-        [{}, {}, {}, {}, {},],
-        [{}, {}, {}, {}, {},],
-        [{}, {}, {}, {}, {},],
-      ],
-    }
   }
 
-  handleClick = (option, cardNumber, e) => {
-    if (option === 'add') {
-      console.log('Hello from add!');
-      console.log('Card number:', cardNumber);
-    }
-    if (option === 'edit') {
-      console.log('Hello from edit!');
-    }
-    if (option === 'clear') {
-      console.log('Hello from clear!');
-    }
-  }
+  
 
   render() {
-    const { cards } = this.state;
     return (
       <div className="shelf">
         {
-          cards.map((ele, index) => {
-            return ele.map((e, i) => {
-              return (
-                <Card 
-                  cardNumber={{index, i}}
-                  handleClick={this.handleClick}>
-                </Card>
-              );
-            });
+          Array.from({ length: 25 }).map((ele, index) => {
+            return (<Card id={index}></Card>);
           })
         }
       </div>
@@ -61,23 +24,54 @@ export default class Shelf extends Component {
 class Card extends Component {
   constructor() {
     super();
+
+    this.state = {
+      id: '',
+      brand: '',
+      style: '',
+      size: '',
+      upcId: '',
+    };
+
+  }
+
+  handleClick = (option, e) => {
+
+    this.setState({
+      id: this.props.id,
+    }, () => console.log(this.state.id))
+
+    if (option === 'add') {
+    }
+    if (option === 'edit') {
+      console.log('Hello from edit!');
+    }
+    if (option === 'clear') {
+      console.log('Hello from clear!');
+    }
   }
 
   render() {
-    const { handleClick, cardNumber } = this.props;
+  const { brand, style, size, upcId } = this.state;
     return (
       <div className="card">
+        <ul>
+          <li>{brand}</li>
+          <li>{style}</li>
+          <li>{size}</li>
+          <li>{upcId}</li>
+        </ul>
         <button 
           id="button-add"
-          onClick={(e) => handleClick('add', cardNumber, e)}
+          onClick={(e) => this.handleClick('add', e)}
         ></button>
         <button 
           id="button-edit"
-          onClick={(e) => handleClick('edit', cardNumber, e)}
+          onClick={(e) => this.handleClick('edit', e)}
         ></button>
         <button 
           id="button-clear"
-          onClick={(e) => handleClick('clear', cardNumber, e)}
+          onClick={(e) => this.handleClick('clear', e)}
         ></button>
       </div>
     );
