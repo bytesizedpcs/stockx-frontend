@@ -1,4 +1,11 @@
+* {
+  box-sizing: border-box;
+}
+
 .App {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 }
 
@@ -8,26 +15,101 @@
   pointer-events: none;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.shelf {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(100px, 200px));
+  grid-template-rows: repeat(5, minmax(100px, 200px));
+  grid-gap: 10px;
+
+  margin: 20px;
+
+  //border: 2px solid green;
+}
+
+.card {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+
+  //border: 2px solid black;
+
+  border-radius: 5px;
 }
 
-.App-link {
-  color: #61dafb;
-}
+#shoe-form {
+  width: 100%;
+  height: 100%;
+  background-color: #bbb;
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  padding: 5px;
+  //border: 2px solid blue;
+  border-radius: 5px;
+
+  .form-input {
+    border: none;
+    border-radius: 3px;
+
+    width: 100%;
+    height: 35px;
+
+    padding: 5px;
+    margin-bottom: 5px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .form-button {
+    border: none;
+    height: 30px;
+    width: 50%;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+#button-add {
+  height: 100%;
+  width: 100%;
+
+  background-color: #bbb;
+  border: none;
+
+  font-size: 50px;
+  color: #171717;
+
+  border-radius: 5px;
+
+  &:hover {
+    background-color: #05E357;
+    color: white;
+    transition: 0.4s;
+  }
+}
+
+#cancel-button {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+
+  background-color: rgb(207, 20, 7);
+  color: white;
+
+  &:hover {
+    background-color: rgb(238, 0, 0);
+    color: #171717;
+    transition: 0.3s;
+  }
+}
+
+#submit-button {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+
+  background-color: rgb(6, 170, 66);
+  //color: #171717;
+  color: white;
+
+  &:hover {
+    background-color: rgb(31, 197, 45);
+    color: #171717;
+    transition: 0.3s;
   }
 }

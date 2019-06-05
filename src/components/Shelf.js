@@ -22,7 +22,6 @@ class Card extends Component {
   constructor() {
     super();
 
-    // add, edit
     this.state = {
       id: '',
       brand: '',
@@ -73,8 +72,6 @@ class Card extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-
-    console.log('target', e.target.brand.value);
 
     this.setState({
       brand: e.target.brand.value,
@@ -137,24 +134,14 @@ function ShoeForm(props) {
   const { submitForm, handleCancel, brand, style, size, upcId } = props;
   return (
     <form id="shoe-form" onSubmit={submitForm}>
-      <label>
-        Brand:
-        <input type="text" name="brand" />
-      </label>
-      <label>
-        Style:
-        <input type="text" name="style" />
-      </label>
-      <label>
-        Size:
-        <input type="text" name="size" />
-      </label>
-      <label>
-        UPC ID:
-        <input type="text" name="upcId" />
-      </label>
-      <input type="submit" name="submit" value="accept" />
+      <input className="form-input" type="text" name="brand" placeholder="brand"/>
+      <input className="form-input" type="text" name="style" placeholder="style"/>
+      <input className="form-input" type="text" name="size" placeholder="size"/>
+      <input className="form-input" type="text" name="upcId" placeholder="upcId"/>
+      <input id="submit-button" className="form-button" type="submit" name="submit" value="accept" />
       <button
+        className="form-button"
+        id="cancel-button"
         onClick={handleCancel}
       >cancel</button>
     </form>  
