@@ -55,7 +55,7 @@ class Card extends Component {
 
     if (option === 'cancel-edit') {
       this.setState({
-        mode: 'view',
+        mode: 'add',
       });
     }
 
@@ -101,22 +101,22 @@ class Card extends Component {
               ></ShoeForm>
             </>
           ) : mode === 'view' ? (
-            <>
-              <StateList
-                brand={brand}
-                style={style}
-                size={size}
-                upcId={upcId}
-              ></StateList>
+            <div className="shoe-info-container">
+              <div className="shoe-info">{brand}</div>
+              <div className="shoe-info">{style}</div>
+              <div className="shoe-info">{size}</div>
+              <div className="shoe-info">{upcId}</div>
               <button 
-                id="button-cancel"
+                id="edit-button"
+                className="form-button"
                 onClick={(e) => this.handleClick('add', e)}
               >edit</button>
               <button 
-                id="button-cancel"
+                id="remove-button"
+                className="form-button"
                 onClick={(e) => this.handleClick('clear', e)}
               >remove</button>
-            </>
+            </div>
           ) : (
             <button 
               id="button-add"
@@ -130,11 +130,14 @@ class Card extends Component {
 }
 
 // make form show parent state
+// implement handleChange instead of onSubmit.
+// onSubmit can literally just change the mode, handleChange will have already 
+// updated the state (which is all you really need)
 function ShoeForm(props) {
   const { submitForm, handleCancel, brand, style, size, upcId } = props;
   return (
     <form id="shoe-form" onSubmit={submitForm}>
-      <input className="form-input" type="text" name="brand" placeholder="brand"/>
+      <input className="form-input" type="text" name="brand" placeholder="brand" />
       <input className="form-input" type="text" name="style" placeholder="style"/>
       <input className="form-input" type="text" name="size" placeholder="size"/>
       <input className="form-input" type="text" name="upcId" placeholder="upcId"/>
@@ -145,18 +148,5 @@ function ShoeForm(props) {
         onClick={handleCancel}
       >cancel</button>
     </form>  
-  );
-}
-
-function StateList(props) {
-  const { brand, style, size, upcId } = props;
-
-  return (
-    <ul>
-      <li>{brand}</li>
-      <li>{style}</li>
-      <li>{size}</li>
-      <li>{upcId}</li>
-    </ul>
   );
 }
