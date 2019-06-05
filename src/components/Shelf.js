@@ -1,21 +1,15 @@
 import React, { Component } from 'react';
 
-export default class Shelf extends Component {
-  constructor() {
-    super();
-  }
-
-  render() {
-    return (
-      <div className="shelf">
-        {
-          Array.from({ length: 25 }).map((ele, index) => {
-            return (<Card id={index}></Card>);
-          })
-        }
-      </div>
-    );
-  }
+export default function Shelf(props) {
+  return (
+  <div className="shelf">
+    {
+      Array.from({ length: 25 }).map((ele, index) => {
+        return (<Card key={index} id={index}></Card>);
+      })
+    }
+  </div>
+  );
 }
 
 class Card extends Component {
@@ -29,6 +23,7 @@ class Card extends Component {
       size: '',
       upcId: '',
       mode: 'add',
+      beenViewed: false,
     };
 
   }
@@ -38,13 +33,13 @@ class Card extends Component {
     if (this.state.id === '') {
       this.setState({
         id: this.props.id,
-      }, () => console.log(this.state.id))
+      })
     }
 
     if (option === 'add') {
       this.setState({
         mode: 'edit',
-      }, () => console.log(this.state.mode));
+      });
     }
 
     if (option === 'confirm-edit') {
@@ -54,9 +49,25 @@ class Card extends Component {
     }
 
     if (option === 'cancel-edit') {
-      this.setState({
-        mode: 'add',
-      });
+      const { brand, style, size, upcId, beenViewed } = this.state;
+
+      if (!brand || !style || !size || !upcId) {
+        this.setState({
+          mode: 'add',
+        });
+      } else if(beenViewed) {
+        this.setState({
+          mode: 'view',
+        });
+      } else {
+        this.setState({
+          brand: '',
+          style: '',
+          size: '',
+          upcId: '',
+          mode: 'add',
+        });
+      }
     }
 
     if (option === 'clear') {
@@ -66,6 +77,7 @@ class Card extends Component {
         size: '',
         upcId: '',
         mode: 'add',
+        beenViewed: false,
       });
     }
   }
@@ -73,13 +85,18 @@ class Card extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    this.setState({
-      brand: e.target.brand.value,
-      style: e.target.style.value,
-      size: e.target.size.value,
-      upcId: e.target.upcId.value,
+    this.setState(prevState => ({
       mode: 'view',
-    }, () => console.log('state set by submit'));
+      beenViewed: prevState.beenViewed ? prevState.beenViewed : !prevState.beenViewed,
+    }));
+  }
+
+  handleChange = (e) => {
+    const { name, value } = e.target;
+
+    this.setState({
+      [name]: value,
+    });
   }
 
   // edit button might need to be a form confirm button
@@ -94,6 +111,7 @@ class Card extends Component {
               <ShoeForm
                 submitForm={(e) => this.handleSubmit(e)}
                 handleCancel={(e) => this.handleClick('cancel-edit', e)}
+                changeHandler={this.handleChange}
                 brand={brand}
                 style={style}
                 size={size}
@@ -134,14 +152,49 @@ class Card extends Component {
 // onSubmit can literally just change the mode, handleChange will have already 
 // updated the state (which is all you really need)
 function ShoeForm(props) {
-  const { submitForm, handleCancel, brand, style, size, upcId } = props;
+  const { submitForm, handleCancel, changeHandler, brand, style, size, upcId } = props;
+
   return (
     <form id="shoe-form" onSubmit={submitForm}>
-      <input className="form-input" type="text" name="brand" placeholder="brand" />
-      <input className="form-input" type="text" name="style" placeholder="style"/>
-      <input className="form-input" type="text" name="size" placeholder="size"/>
-      <input className="form-input" type="text" name="upcId" placeholder="upcId"/>
-      <input id="submit-button" className="form-button" type="submit" name="submit" value="accept" />
+      <input 
+        className="form-input" 
+        type="text" 
+        name="brand" 
+        onChange={changeHandler}
+        value={brand} 
+        placeholder="brand" 
+      />
+      <input 
+        className="form-input" 
+        type="text" 
+        name="style" 
+        onChange={changeHandler}
+        value={style}
+        placeholder="style" 
+      />
+      <input 
+        className="form-input" 
+        type="text" 
+        name="size" 
+        onChange={changeHandler}
+        value={size}
+        placeholder="size" 
+      />
+      <input 
+        className="form-input" 
+        type="text" 
+        name="upcId" 
+        onChange={changeHandler}
+        value={upcId}
+        placeholder="upcId" 
+      />
+      <input 
+        id="submit-button" 
+        className="form-button" 
+        type="submit" 
+        name="submit" 
+        value="accept" 
+      />
       <button
         className="form-button"
         id="cancel-button"
